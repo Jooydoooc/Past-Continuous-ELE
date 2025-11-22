@@ -37,32 +37,47 @@ module.exports = async (req, res) => {
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
-    if (!botToken || !chatId) {
-      console.error('Missing Telegram environment variables');
+    console.log('Environment check:', {
+      hasBotToken: !!botToken,
+      hasChatId: !!chatId,
+      chatId: chatId
+    });
+
+    if (!botToken) {
       return res.status(500).json({ 
         success: false, 
-        error: 'Telegram configuration missing' 
+        error: 'Telegram Bot Token is missing. Please set TELEGRAM_BOT_TOKEN in Vercel environment variables.' 
+      });
+    }
+
+    if (!chatId) {
+      return res.status(500).json({ 
+        success: false, 
+        error: 'Telegram Chat ID is missing. Please set TELEGRAM_CHAT_ID in Vercel environment variables.' 
       });
     }
 
     // Build the message for Telegram
     let message = `📘 New Past Continuous Test Result\n`;
     message += `👤 Name: ${studentName}\n`;
-    message += `✅ Score: ${score}/${total}\n\n`;
+    message += `✅ Score: ${score}/${total} (${Math.round((score/total)*100)}%)\n\n`;
     message += `📄 Details:\n`;
 
-    // Add each blank result
-    answers.forEach((answer) => {
-      const status = answer.correct ? '✅ Correct' : '❌ Incorrect';
-      const correctAnswers = Array.isArray(answer.correctAnswers) 
-        ? answer.correctAnswers.join(' OR ') 
-        : answer.correctAnswers;
-      
-      message += `${answer.questionLabel}: "${answer.userAnswer}" → ${status} | Correct: ${correctAnswers}\n`;
+    // Add each blank result (limit to first 10 for readability)
+    answers.slice(0, 10).forEach((answer) => {
+      const status = answer.correct ? '✅' : '❌';
+      message += `${status} ${answer.questionLabel}: "${answer.userAnswer}"\n`;
     });
+
+    // If there are more than 10 answers, show a summary
+    if (answers.length > 10) {
+      message += `\n... and ${answers.length - 10} more answers`;
+    }
 
     // Send message to Telegram using the Bot API
     const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    
+    console.log('Sending to Telegram:', telegramUrl);
     
     const response = await fetch(telegramUrl, {
       method: 'POST',
@@ -71,17 +86,31 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         chat_id: chatId,
-        text: message
+        text: message,
+        parse_mode: 'HTML'
       })
     });
 
     const telegramResult = await response.json();
 
+    console.log('Telegram API response:', telegramResult);
+
     if (!telegramResult.ok) {
-      console.error('Telegram API error:', telegramResult);
+      let errorMessage = 'Failed to send message to Telegram';
+      
+      if (telegramResult.error_code === 400) {
+        errorMessage = 'Invalid Chat ID. Please check TELEGRAM_CHAT_ID.';
+      } else if (telegramResult.error_code === 401) {
+        errorMessage = 'Invalid Bot Token. Please check TELEGRAM_BOT_TOKEN.';
+      } else if (telegramResult.error_code === 403) {
+        errorMessage = 'Bot is not a member of the chat. Add bot to your group/channel.';
+      } else if (telegramResult.description) {
+        errorMessage = `Telegram error: ${telegramResult.description}`;
+      }
+      
       return res.status(500).json({ 
         success: false, 
-        error: 'Failed to send message to Telegram' 
+        error: errorMessage 
       });
     }
 
