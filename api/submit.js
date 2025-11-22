@@ -46,16 +46,19 @@ module.exports = async (req, res) => {
     }
 
     // Build the message for Telegram
-    let message = `📚 New Past Continuous Test Result:\n`;
+    let message = `📘 New Past Continuous Test Result\n`;
     message += `👤 Name: ${studentName}\n`;
-    message += `📊 Score: ${score}/${total}\n`;
-    message += `📝 Details:\n`;
+    message += `✅ Score: ${score}/${total}\n\n`;
+    message += `📄 Details:\n`;
 
-    // Add each question result
-    answers.forEach((answer, index) => {
-      const questionNum = index + 1;
-      const status = answer.isCorrect ? '✅ Correct' : '❌ Incorrect';
-      message += `Q${questionNum}: "${answer.userAnswer}" → ${status}\n`;
+    // Add each blank result
+    answers.forEach((answer) => {
+      const status = answer.correct ? '✅ Correct' : '❌ Incorrect';
+      const correctAnswers = Array.isArray(answer.correctAnswers) 
+        ? answer.correctAnswers.join(' OR ') 
+        : answer.correctAnswers;
+      
+      message += `${answer.questionLabel}: "${answer.userAnswer}" → ${status} | Correct: ${correctAnswers}\n`;
     });
 
     // Send message to Telegram using the Bot API
@@ -68,8 +71,7 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         chat_id: chatId,
-        text: message,
-        parse_mode: 'HTML'
+        text: message
       })
     });
 
@@ -86,7 +88,7 @@ module.exports = async (req, res) => {
     // Return success to frontend
     res.status(200).json({ 
       success: true,
-      message: 'Results sent successfully'
+      message: 'Results sent successfully to Telegram'
     });
 
   } catch (error) {
