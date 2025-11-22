@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Continuous Test</title>
+    <style>
+        /* Simple, clean styling for the test */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .instructions {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .name-gate {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .name-inputs {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .name-input {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            min-width: 200px;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .test-section {
+            display: none;
+        }
+
+        .student-info-bar {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question-text {
+            margin-bottom: 10px;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        .blank-input {
+            display: inline-block;
+            width: 150px;
+            margin: 0 5px;
+        }
+
+        .hint {
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .feedback {
+            margin-top: 5px;
+            font-size: 0.9em;
+            min-height: 20px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: #27ae60;
+        }
+
+        .incorrect {
+            color: #e74c3c;
+        }
+
+        .input-correct {
+            border-color: #27ae60 !important;
+            background-color: #f0fff4;
+        }
+
+        .input-incorrect {
+            border-color: #e74c3c !important;
+            background-color: #fff0f0;
+        }
+
+        .results {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .good-score {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .average-score {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+        }
+
+        .poor-score {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .telegram-status {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .telegram-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .telegram-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .info-note {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Past Continuous Test</h1>
+        
+        <!-- Name Gate Section -->
+        <div id="nameGate" class="section name-gate">
+            <div class="instructions">
+                <p>Please enter your name and surname to start the test.</p>
+            </div>
+            
+            <div class="name-inputs">
+                <div class="name-input">
+                    <label for="firstName">Name:</label>
+                    <input type="text" id="firstName" placeholder="Your name">
+                </div>
+                <div class="name-input">
+                    <label for="lastName">Surname:</label>
+                    <input type="text" id="lastName" placeholder="Your surname">
+                </div>
+            </div>
+            
+            <button onclick="startTest()">Start Test</button>
+            
+            <div class="info-note">
+                Your answers and score will be sent to your teacher's Telegram group.
+            </div>
+        </div>
+
+        <!-- Test Section -->
+        <div id="testSection" class="section test-section">
+            <div class="student-info-bar" id="studentInfo">
+                <!-- Student name will be inserted here -->
+            </div>
+            
+            <div class="instructions">
+                <p><strong>Instructions:</strong> Write the correct past continuous or past simple form in each blank. You may use contractions. Capital letters and extra spaces do not matter. Your result will be shown here and sent to your teacher.</p>
+            </div>
+
+            <form id="testForm">
+                <!-- Questions will be dynamically inserted here -->
+            </form>
+
+            <button onclick="checkAnswers()">Check My Answers</button>
+            
+            <div id="results" class="results" style="display: none;"></div>
+            <div id="telegramStatus" class="telegram-status" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Student data
+        let studentName = '';
+        let totalBlanks = 0;
+
+        // Answer key with all accepted variations
+        const answerKey = {
+            // Q1
+            q1: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were eating"],  // blank 1
+                    ["went"]          // blank 2
+                ]
+            },
+            // Q2
+            q2: {
+                blanks: 1,
+                correctAnswers: [
+                    ["were playing"]  // blank 1
+                ]
+            },
+            // Q3
+            q3: {
+                blanks: 2,
+                correctAnswers: [
+                    ["was"],         // blank 1
+                    ["driving"]      // blank 2
+                ]
+            },
+            // Q4
+            q4: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were walking"], // blank 1
+                    ["saw"]           // blank 2
+                ]
+            },
+            // Q5
+            q5: {
+                blanks: 1,
+                correctAnswers: [
+                    ["was not watching", "wasn't watching", "wasn't watching"]  // blank 1
+                ]
+            },
+            // Q6
+            q6: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were doing"],  // blank 1
+                    ["entered"]      // blank 2
+                ]
+            },
+            // Q7
+            q7: {
+                blanks: 1,
+                correctAnswers: [
+                    ["were driving"]  // blank 1
+                ]
+            },
+            // Q8
+            q8: {
+                blanks: 2,
+                correctAnswers: [
+                    ["was cooking"],  // blank 1
+                    ["was setting"]   // blank 2
+                ]
+            },
+            // Q9
+            q9: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were"],        // blank 1
+                    ["doing"]        // blank 2
+                ]
+            },
+            // Q10
+            q10: {
+                blanks: 2,
+                correctAnswers: [
+                    ["was watching"], // blank 1
+                    ["came"]          // blank 2
+                ]
+            },
+            // Q11
+            q11: {
+                blanks: 1,
+                correctAnswers: [
+                    ["were studying"]  // blank 1
+                ]
+            },
+            // Q12
+            q12: {
+                blanks: 1,
+                correctAnswers: [
+                    ["were not talking", "weren't talking", "weren't talking"]  // blank 1
+                ]
+            },
+            // Q13
+            q13: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were waiting"],  // blank 1
+                    ["was raining"]    // blank 2
+                ]
+            },
+            // Q14
+            q14: {
+                blanks: 1,
+                correctAnswers: [
+                    ["was cooking"]  // blank 1
+                ]
+            },
+            // Q15
+            q15: {
+                blanks: 2,
+                correctAnswers: [
+                    ["was explaining"], // blank 1
+                    ["were taking"]     // blank 2
+                ]
+            },
+            // Q16
+            q16: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were"],        // blank 1
+                    ["working"]      // blank 2
+                ]
+            },
+            // Q17
+            q17: {
+                blanks: 1,
+                correctAnswers: [
+                    ["was talking"]  // blank 1
+                ]
+            },
+            // Q18
+            q18: {
+                blanks: 1,
+                correctAnswers: [
+                    ["were not listening", "weren't listening", "weren't listening"]  // blank 1
+                ]
+            },
+            // Q19
+            q19: {
+                blanks: 2,
+                correctAnswers: [
+                    ["was having"],  // blank 1
+                    ["rang"]         // blank 2
+                ]
+            },
+            // Q20
+            q20: {
+                blanks: 1,
+                correctAnswers: [
+                    ["were not waiting", "weren't waiting", "weren't waiting"]  // blank 1
+                ]
+            },
+            // Q21
+            q21: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were studying"], // blank 1
+                    ["were using"]     // blank 2
+                ]
+            },
+            // Q22
+            q22: {
+                blanks: 1,
+                correctAnswers: [
+                    ["was not sleeping", "wasn't sleeping", "wasn't sleeping"]  // blank 1
+                ]
+            },
+            // Q23
+            q23: {
+                blanks: 2,
+                correctAnswers: [
+                    ["were"],        // blank 1
+                    ["sitting"]      // blank 2
+                ]
+            },
+            // Q24
+            q24: {
+                blanks: 2,
+                correctAnswers: [
+                    ["was walking"],  // blank 1
+                    ["was talking"]   // blank 2
+                ]
+            },
+            // Q25
+            q25: {
+                blanks: 2,
+                correctAnswers: [
+                    ["was"],        // blank 1
+                    ["crying"]      // blank 2
+                ]
+            }
+        };
+
+        // Questions data with blanks marked for replacement
+        const questions = [
+            "While we ________ (eat) dinner, the lights ________ (go) off.",
+            "They ________ (play) football in the yard at 5 o'clock.",
+            "________ he ________ (drive) to work at 8 yesterday morning?",
+            "While they ________ (walk) to school, they ________ (see) a car accident.",
+            "I ________ (not / watch) TV at 10 p.m. yesterday.",
+            "While the students ________ (do) the test, the headmaster ________ (enter) the classroom.",
+            "My parents ________ (drive) to Tashkent late last night.",
+            "While my brother ________ (cook) dinner, my sister ________ (set) the table.",
+            "What ________ you ________ (do) at 9 p.m. last night?",
+            "While I ________ (watch) TV, my mother ________ (come) home.",
+            "We ________ (study) English in the classroom at 3 p.m. yesterday.",
+            "The students ________ (not / talk) loudly in the library.",
+            "While we ________ (wait) for the bus, it ________ (rain) heavily.",
+            "I ________ (cook) dinner at 7 p.m. yesterday.",
+            "While the teacher ________ (explain) the rules, the students ________ (take) notes.",
+            "________ your parents ________ (work) at the factory in 2010?",
+            "She ________ (talk) on the phone at 9 last night.",
+            "They ________ (not / listen) to the teacher during the test.",
+            "While he ________ (have) a shower, the phone ________ (ring).",
+            "We ________ (not / wait) for the bus in the rain.",
+            "While they ________ (study) in the library, other students ________ (use) the computers.",
+            "He ________ (not / sleep) when his friend called.",
+            "Where ________ they ________ (sit) in the classroom during the test?",
+            "While I ________ (walk) home, my friend ________ (talk) to me on the phone.",
+            "Why ________ she ________ (cry) in the street yesterday?"
+        ];
+
+        // Start the test after name entry
+        function startTest() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            
+            if (!firstName || !lastName) {
+                alert('Please write both your name and surname.');
+                return;
+            }
+            
+            studentName = `${firstName} ${lastName}`;
+            
+            // Hide name gate and show test section
+            document.getElementById('nameGate').style.display = 'none';
+            document.getElementById('testSection').style.display = 'block';
+            document.getElementById('studentInfo').textContent = `Student: ${studentName}`;
+            
+            // Initialize the test
+            initializeTest();
+        }
+
+        // Initialize the test form with questions
+        function initializeTest() {
+            const form = document.getElementById('testForm');
+            form.innerHTML = '';
+            totalBlanks = 0;
+            
+            questions.forEach((question, index) => {
+                const questionNum = index + 1;
+                const questionKey = `q${questionNum}`;
+                const blanksCount = answerKey[questionKey].blanks;
+                totalBlanks += blanksCount;
+                
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <div class="question-text">${formatQuestionWithInputs(question, questionNum, blanksCount)}</div>
+                    <div class="feedback" id="feedback-${questionNum}"></div>
+                `;
+                form.appendChild(questionDiv);
+            });
+        }
+
+        // Format question text with input fields replacing blanks
+        function formatQuestionWithInputs(question, questionNum, blanksCount) {
+            let formattedQuestion = `Q${questionNum}. `;
+            let blankIndex = 0;
+            
+            // Split the question and replace each blank with an input
+            const parts = question.split('________');
+            
+            parts.forEach((part, index) => {
+                formattedQuestion += part;
+                if (index < parts.length - 1) {
+                    formattedQuestion += `<input type="text" class="blank-input" id="q${questionNum}_${blankIndex}" placeholder="blank ${blankIndex + 1}">`;
+                    blankIndex++;
+                }
+            });
+            
+            return formattedQuestion;
+        }
+
+        // Normalize answer: trim, collapse spaces, convert to lowercase
+        function normalizeAnswer(str) {
+            return str.trim().replace(/\s+/g, ' ').toLowerCase();
+        }
+
+        // Check if user answer matches any of the correct options
+        function isAnswerCorrect(userAnswer, correctOptions) {
+            if (!userAnswer) return false;
+            
+            const normalizedUser = normalizeAnswer(userAnswer);
+            return correctOptions.some(option => 
+                normalizedUser === normalizeAnswer(option)
+            );
+        }
+
+        // Check all answers and calculate score
+        async function checkAnswers() {
+            let score = 0;
+            const blankResults = [];
+
+            // Check each question
+            for (let questionNum = 1; questionNum <= 25; questionNum++) {
+                const questionKey = `q${questionNum}`;
+                const blanksCount = answerKey[questionKey].blanks;
+                let questionCorrect = true;
+                
+                for (let blankIndex = 0; blankIndex < blanksCount; blankIndex++) {
+                    const input = document.getElementById(`${questionKey}_${blankIndex}`);
+                    const userAnswer = input.value;
+                    const correctOptions = answerKey[questionKey].correctAnswers[blankIndex];
+                    
+                    const isCorrect = isAnswerCorrect(userAnswer, correctOptions);
+                    
+                    // Update UI
+                    if (isCorrect) {
+                        input.classList.remove('input-incorrect');
+                        input.classList.add('input-correct');
+                        score++;
+                    } else {
+                        input.classList.remove('input-correct');
+                        input.classList.add('input-incorrect');
+                        questionCorrect = false;
+                    }
+                    
+                    // Store for Telegram
+                    blankResults.push({
+                        id: `${questionKey}_${blankIndex}`,
+                        questionLabel: `Q${questionNum} (blank ${blankIndex + 1})`,
+                        userAnswer: userAnswer || '(empty)',
+                        correct: isCorrect,
+                        correctAnswers: correctOptions
+                    });
+                }
+                
+                // Update question feedback
+                const feedback = document.getElementById(`feedback-${questionNum}`);
+                if (questionCorrect) {
+                    feedback.textContent = '✅ Correct';
+                    feedback.className = 'feedback correct';
+                } else {
+                    feedback.textContent = '❌ Try again';
+                    feedback.className = 'feedback incorrect';
+                }
+            }
+
+            // Show results
+            showResults(score);
+            
+            // Send results to Telegram (non-blocking)
+            sendToTelegram(blankResults, score);
+        }
+
+        // Display results to student
+        function showResults(score) {
+            const resultsDiv = document.getElementById('results');
+            const percentage = (score / totalBlanks) * 100;
+            
+            let resultClass = 'average-score';
+            if (percentage >= 80) resultClass = 'good-score';
+            if (percentage < 60) resultClass = 'poor-score';
+            
+            resultsDiv.innerHTML = `
+                <h2>Test Completed!</h2>
+                <p>You scored ${score} out of ${totalBlanks}</p>
+                <p>Percentage: ${percentage.toFixed(1)}%</p>
+            `;
+            resultsDiv.className = `results ${resultClass}`;
+            resultsDiv.style.display = 'block';
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Send results to Telegram via API
+        async function sendToTelegram(blankResults, score) {
+            const statusDiv = document.getElementById('telegramStatus');
+            
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        studentName,
+                        answers: blankResults,
+                        score,
+                        total: totalBlanks
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    statusDiv.textContent = 'Result shown here and successfully sent to Telegram.';
+                    statusDiv.className = 'telegram-status telegram-success';
+                } else {
+                    statusDiv.textContent = 'Result shown here. Could not send result to Telegram.';
+                    statusDiv.className = 'telegram-status telegram-error';
+                }
+            } catch (error) {
+                console.error('Error sending to Telegram:', error);
+                statusDiv.textContent = 'Result shown here. Could not send result to Telegram.';
+                statusDiv.className = 'telegram-status telegram-error';
+            }
+            
+            statusDiv.style.display = 'block';
+        }
+
+        // Allow pressing Enter in name inputs to start test
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstNameInput = document.getElementById('firstName');
+            const lastNameInput = document.getElementById('lastName');
+            
+            function handleEnterKey(event) {
+                if (event.key === 'Enter') {
+                    startTest();
+                }
+            }
+            
+            firstNameInput.addEventListener('keypress', handleEnterKey);
+            lastNameInput.addEventListener('keypress', handleEnterKey);
+        });
+    </script>
+</body>
+</html>
