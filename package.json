@@ -1,7 +1,7 @@
 {
   "name": "past-continuous-test",
   "version": "1.0.0",
-  "description": "Past Continuous grammar test with Telegram integration",
+  "description": "Past Continuous grammar test with name gate and Telegram integration",
   "main": "index.html",
   "scripts": {
     "dev": "vercel dev"
