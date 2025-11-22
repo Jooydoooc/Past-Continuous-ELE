@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "functions": {
+    "api/submit.js": {
+      "runtime": "nodejs22.x"
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
